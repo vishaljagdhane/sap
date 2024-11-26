@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPages from './pages/LoginPages';
 import ProtectedRoute from './pages/ProctedtRoute';
 import AdminDashbaord from './module/AdminModule/AdminDashbaord';
+import UseRegister from './pages/UseRegister';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path='/userregister' element={<UseRegister/>}/>
       </Routes>
     </BrowserRouter>
   );
