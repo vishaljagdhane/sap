@@ -1,0 +1,9 @@
+`REACT_APP_API_BASE_URL` व्हेरिएबलचा वापर backend API URL सेट करण्यासाठी
+
+या commit मध्ये `REACT_APP_API_BASE_URL` पर्यावरणीय व्हेरिएबल सेट केला आहे ज्याचा वापर React अ‍ॅप मध्ये API कॉल करतांना केला जातो. `REACT_APP_API_BASE_URL` मध्ये backend सर्व्हरचा URL (उदाहरणार्थ `http://localhost:4100/api/`) संग्रहित केला जातो.
+
+1. .env फाईल मध्ये `REACT_APP_API_BASE_URL` व्हेरिएबल सेट केला आहे.
+2. `process.env.REACT_APP_API_BASE_URL` वापरून React मध्ये API URL प्राप्त केला जातो.
+3. या URLचा वापर API कॉल करतांना आधार म्हणून होतो.
+
+हे वापरल्यामुळे React अ‍ॅपमध्ये API कॉल्स साधारणपणे एकाच ठिकाणाहून कसे तयार करायचे हे साधता येते आणि विकास, चाचणी व उत्पादन वातावरणातील API URLs वेगळे ठेवता येतात.
