@@ -34,6 +34,7 @@ export default function AdminDashboard() {
             transition: 'width 0.3s ease', // Smooth transition for content width
             marginLeft: isLeftPanelOpen ? '3%' : '0', // Move content to the right when panel opens
             display:'block', //
+          ml:0
           }}
         >
           {/* Top Bar (Always visible on top) */}

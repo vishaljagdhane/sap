@@ -1,44 +1,32 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginPages from './pages/LoginPages';
-import ProtectedRoute from './pages/ProctedtRoute';
-import AdminDashbaord from './module/AdminModule/AdminDashbaord';
-import UseRegister from './pages/UseRegister';
-import UserTableData from './pages/UserTableData';
-import ApiServices from './APIServises/ApiServices';
-
-function App() {
-
-
+import React from 'react'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import UserTableData from './pages/UserTableData'
+import UseRegister from './pages/UseRegister'
+import SimpleLoginForm from './pages/LoginPages'
+import AdminDashboard from './module/AdminModule/AdminDashbaord'
+import { AuthProvider } from './CommanContext/AuthProvider'
+import ProtectedRoute from './pages/ProctedtRoute'
+export default function App() {
   return (
+    <>
+   <AuthProvider>
+   <BrowserRouter>
+   <Routes>
+   <Route path='/' element={<SimpleLoginForm/>}></Route>
 
-    <BrowserRouter>
-
-      <Routes>
-        <Route path="/" element={<LoginPages />} />
-
-        {/* Protected routes with role-based access */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={['admin']}>
-             <AdminDashbaord/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/usermodule"
-          element={
-            <ProtectedRoute allowedRoles={['user', 'admin']}>
-              <h1>User Module</h1>
-            </ProtectedRoute>
-          }
-        />
-        <Route path='/userregister' element={<UseRegister/>}/>
-        <Route path='/userTableData' element={<UserTableData/>}/>
-      </Routes>
-    </BrowserRouter>
-  );
+   <Route 
+   path="/admin-dashabord" 
+   element={
+     <ProtectedRoute>
+       <AdminDashboard/>
+     </ProtectedRoute>
+   }
+ />
+   </Routes>
+   
+   </BrowserRouter>
+   
+   </AuthProvider>
+    </>
+  )
 }
-
-export default App;

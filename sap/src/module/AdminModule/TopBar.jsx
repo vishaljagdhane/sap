@@ -1,35 +1,46 @@
-import React, { useState } from 'react'
-import { AppBar, Toolbar, IconButton, Typography, TextField, InputAdornment, Avatar, Menu, MenuItem } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import CloseIcon from '@mui/icons-material/Close'  // Import CloseIcon
-import SearchIcon from '@mui/icons-material/Search'
-import AccountCircle from '@mui/icons-material/AccountCircle'
+import React, { useState } from 'react';
+import { AppBar, Toolbar, IconButton, Typography, TextField, InputAdornment, Avatar, Menu, MenuItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';  // Import CloseIcon
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
+import { useNavigate } from 'react-router-dom';  // Import useNavigate to handle redirection
+import { useAuth } from '../../CommanContext/AuthProvider';
 
 export default function TopBar({ toggleLeftPanel }) {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false) // State to track left panel status
+  const { logout } = useAuth(); // Access the logout function from AuthContext
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false); // State to track left panel status
+  const navigate = useNavigate();  // Hook for navigation
 
   // Handle user icon click
   const handleUserMenuClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   // Handle user menu close
   const handleUserMenuClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   // Handle search input change
   const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value)
-  }
+    setSearchQuery(event.target.value);
+  };
 
   // Toggle the left panel and change the icon (Menu or Close)
   const handleMenuIconClick = () => {
-    setIsLeftPanelOpen((prevState) => !prevState)
-    toggleLeftPanel() // This will toggle the actual left panel visibility
-  }
+    setIsLeftPanelOpen((prevState) => !prevState);
+    toggleLeftPanel(); // This will toggle the actual left panel visibility
+  };
+
+  // Handle logout action
+  const handleLogout = () => {
+    logout();  // Call the logout function from AuthContext
+    navigate('/');  // Navigate to login page after logout
+  };
 
   return (
     <AppBar position="static">
@@ -89,9 +100,10 @@ export default function TopBar({ toggleLeftPanel }) {
           onClose={handleUserMenuClose}
         >
           <MenuItem onClick={handleUserMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleUserMenuClose}>Logout</MenuItem>
+          {/* Add Logout option */}
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>
-  )
+  );
 }
