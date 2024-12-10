@@ -1,132 +1,135 @@
-import React, { useState } from "react";
-import { Drawer, Box, List, ListItem, ListItemText, Divider, Typography, IconButton } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'; // Icon for collapse
+import React, { useState, useEffect } from 'react';
+import { Drawer, Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Home, Create, Edit, Search, AddCircle, Business } from '@mui/icons-material';
 
-const LeftSidePanel = ({ open }) => {
-  const [isSapMmOpen, setIsSapMmOpen] = useState(true); // State to toggle SAP MM
-  const [isSapFicoOpen, setIsSapFicoOpen] = useState(false); // State to toggle SAP FICO
-  const [isSapSdOpen, setIsSapSdOpen] = useState(false); // State to toggle SAP SD
-  const [isSapHrOpen, setIsSapHrOpen] = useState(false); // State to toggle SAP HR
+const LeftSideBar = ({ open, onMenuItemClick, activeItem }) => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [loginTime] = useState(new Date()); // Set the login time when the user first logs in
+  const [sessionDuration, setSessionDuration] = useState(0); // Session duration in seconds
 
-  // Toggle functions for each SAP module
-  const toggleSapMm = () => setIsSapMmOpen((prev) => !prev);
-  const toggleSapFico = () => setIsSapFicoOpen((prev) => !prev);
-  const toggleSapSd = () => setIsSapSdOpen((prev) => !prev);
-  const toggleSapHr = () => setIsSapHrOpen((prev) => !prev);
+  const menuItems = [
+    { id: 'home', label: 'Dasahboard', icon: <Home fontSize="small" /> },
+    { id: 'button', label: 'Button', icon: <Create fontSize="small" /> },
+    { id: 'table', label: 'Table', icon: <Edit fontSize="small" /> },
+    { id: 'Box', label: 'Box', icon: <Search fontSize="small" /> },
+    { id: 'According', label: 'According', icon: <AddCircle fontSize="small" /> },
+    { id: 'silder', label: 'IMG Silder', icon: <Business fontSize="small" /> },
+    // More menu items...
+  ];
+
+  // Handle click on a menu item
+  const handleItemClick = (itemId) => {
+    onMenuItemClick(itemId); // Pass the clicked item to the parent
+  };
+
+  // Update the current time every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, []);
+
+  // Calculate session duration in seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSessionDuration(Math.floor((new Date() - loginTime) / 1000)); // in seconds
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, [loginTime]);
+
+  // Format the session duration in hours, minutes, and seconds
+  const formatDuration = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours}h ${minutes}m ${remainingSeconds}s`;
+  };
 
   return (
     <Drawer
       sx={{
-        width: '240px', // Fixed width when open
-        flexShrink: 0, // Prevent shrinking
+        width: '240px',
+        flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: '240px', // Fixed width when open
+          width: '240px',
           boxSizing: 'border-box',
-          backgroundColor: 'white', // Changed background color to white
-          color: 'black', // Change text color to black for better contrast on white background
+          backgroundColor: 'white',
+          color: 'black',
+          overflow: 'hidden',
         },
       }}
       variant="persistent"
       anchor="left"
-      open={open} // Conditionally open the drawer
+      open={open}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6" color="inherit" gutterBottom>
-          SAP Integration Module
+        {/* Custom Framework name fixed */}
+        <Typography
+          variant="h5"
+          color="inherit"
+          sx={{
+            position: 'fixed',
+            top: 10,
+            left: 20,
+            height: '50px',
+            fontSize: '18px',
+            width: 'auto',
+            padding: '10px',
+            zIndex: 1,
+          }}
+        >
+          Custom-Framework
         </Typography>
 
-        {/* SAP MM - Click to toggle */}
-        <List>
-          <ListItem button onClick={toggleSapMm}>
-            <ListItemText primary="SAP MM" />
-            {isSapMmOpen ? <ExpandLessIcon sx={{ color: 'black' }} /> : <ExpandMoreIcon sx={{ color: 'black' }} />}
-          </ListItem>
-          {isSapMmOpen && (
-            <>
-              <ListItem button>
-                <ListItemText primary="Overview" />
+        {/* List of menu items with scrollable behavior */}
+        <Box>
+          <List
+            sx={{
+              position: 'relative',
+              width: '105%',
+              top: 60,
+              height: '70vh', // Limit the list height to 30% of the viewport height
+              overflowY: 'auto', // Enable vertical scrolling if the list overflows
+            }}
+          >
+            {menuItems.map((item) => (
+              <ListItem
+                button
+                key={item.id}
+                onClick={() => handleItemClick(item.id)}
+                sx={{
+                  textAlign: 'center',
+                  backgroundColor: item.id === activeItem ? 'lightSkyBlue' : 'transparent',
+                  boxShadow: item.id === activeItem ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                  fontWeight: item.id === activeItem ? 'bold' : 'normal',
+                  borderRadius: item.id === activeItem ? '15px' : '',
+                  '&:hover': {
+                    backgroundColor: item.id === activeItem ? 'lightSkyBlue' : '#f0f0f0',
+                  },
+                }}
+              >
+                {item.icon}
+                <ListItemText primary={item.label} sx={{ ml: 2, fontSize: '14px' }} />
               </ListItem>
-              <ListItem button>
-                <ListItemText primary="Data Sync" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Reports" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Settings" />
-              </ListItem>
-            </>
-          )}
-        </List>
-
-        {/* SAP FICO - Click to toggle */}
-        <List>
-          <ListItem button onClick={toggleSapFico}>
-            <ListItemText primary="SAP FICO" />
-            {isSapFicoOpen ? <ExpandLessIcon sx={{ color: 'black' }} /> : <ExpandMoreIcon sx={{ color: 'black' }} />}
-          </ListItem>
-          {isSapFicoOpen && (
-            <>
-              <ListItem button>
-                <ListItemText primary="General Ledger" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Accounts Payable" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Accounts Receivable" />
-              </ListItem>
-            </>
-          )}
-        </List>
-
-        {/* SAP SD - Click to toggle */}
-        <List>
-          <ListItem button onClick={toggleSapSd}>
-            <ListItemText primary="SAP SD" />
-            {isSapSdOpen ? <ExpandLessIcon sx={{ color: 'black' }} /> : <ExpandMoreIcon sx={{ color: 'black' }} />}
-          </ListItem>
-          {isSapSdOpen && (
-            <>
-              <ListItem button>
-                <ListItemText primary="Sales Order Management" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Pricing" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Billing" />
-              </ListItem>
-            </>
-          )}
-        </List>
-
-        {/* SAP HR - Click to toggle */}
-        <List>
-          <ListItem button onClick={toggleSapHr}>
-            <ListItemText primary="SAP HR" />
-            {isSapHrOpen ? <ExpandLessIcon sx={{ color: 'black' }} /> : <ExpandMoreIcon sx={{ color: 'black' }} />}
-          </ListItem>
-          {isSapHrOpen && (
-            <>
-              <ListItem button>
-                <ListItemText primary="Personnel Management" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Payroll" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Time Management" />
-              </ListItem>
-            </>
-          )}
-        </List>
-
+            ))}
+          </List>
+        </Box>
+        
+        {/* Display Current Date, Time and Login Duration */}
+        <Box sx={{ position: 'relative', top: '60px', padding: '10px', fontSize: '14px', color: 'black' }}>
+          <Typography variant="body1">
+            <strong>Current Time:</strong> {currentTime.toLocaleString()}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Session Duration:</strong> {formatDuration(sessionDuration)}
+          </Typography>
+        </Box>
       </Box>
-      <Divider />
     </Drawer>
   );
 };
 
-export default LeftSidePanel;
+export default LeftSideBar;

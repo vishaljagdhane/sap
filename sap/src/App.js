@@ -24,7 +24,14 @@ export default function App() {
  />
 
  <Route path="/user-table-data" element={<UserTableData />}></Route>
-   </Routes>
+ <Route path='/Dashbaord' element={<h1>Dashbaord</h1>}></Route> 
+ <Route path='/Button' element={<h1>Button</h1>}></Route> 
+ <Route path='/TextFiled' element={<h1>TextFiled</h1>}></Route> 
+ <Route path='/Table' element={<h1>Table</h1>}></Route> 
+ <Route path='/According' element={<h1>According</h1>}></Route> 
+ 
+ </Routes>
+   
    
    </BrowserRouter>
    
