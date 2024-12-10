@@ -4,9 +4,11 @@ import { Email, Lock } from '@mui/icons-material'; // Import icons
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../CommanContext/AuthProvider';
+import ApiServices from '../APIServises/ApiServices';
 
 
 export default function SimpleLoginForm() {
+ 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +16,7 @@ export default function SimpleLoginForm() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('error'); // Can be 'success' or 'error'
-
+  const {UserLoginApi} = ApiServices({username, password})
   const navigate = useNavigate();
   const { login } = useAuth(); // Get the login function from context
 
@@ -30,10 +32,11 @@ export default function SimpleLoginForm() {
     setSnackbarSeverity('error');
     
     try {
-      const response = await axios.post('http://localhost:4100/api/LoginUser', {
-        username,
-        password,
-      });
+      // const response = await axios.post('http://localhost:4100/api/LoginUser', {
+      //   username,
+      //   password,
+      // });
+      const response = await UserLoginApi({username,password})
 
       console.log('Login successful:', response.data);
       

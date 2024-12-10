@@ -28,8 +28,18 @@ function ApiServices() {
     }
   };
 
+  const UserLoginApi = async ({username, password}) => {
+    try {
+      const response = await axios.post(`${baseurl}/LoginUser`, { username, password });
+      return response.data; 
+    } catch (error) {
+      console.error('Error during user login:', error); 
+      throw error;
+    }
+  };
+
   // Return the functions to be used in other components (like `UseRegister.jsx`)
-  return { userDataGetting, UserRegisterPostApi };
+  return { userDataGetting, UserRegisterPostApi ,UserLoginApi};
 }
 
 export default ApiServices;

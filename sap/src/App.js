@@ -22,6 +22,8 @@ export default function App() {
      </ProtectedRoute>
    }
  />
+
+ <Route path="/user-table-data" element={<UserTableData />}></Route>
    </Routes>
    
    </BrowserRouter>
