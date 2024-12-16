@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import TopBar from './TopBar';
 import LeftSideBar from './LeftSideBar';
 import DashbordComponent from '../../Component/DashbordComponent';
+import ButtonComponent from '../../Component/ButtonComponent';
 
 export default function AdminDashboard() {
   const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function AdminDashboard() {
       case 'home':
         return <DashbordComponent/>;
       case 'button':
-        return <h1>Button</h1>;
+        return <ButtonComponent/>;
       case 'editCompany':
         return <h1>Edit Company</h1>;
       case 'searchMaterials':

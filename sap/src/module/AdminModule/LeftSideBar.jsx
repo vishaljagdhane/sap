@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Drawer, Box, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { Home, Create, Edit, Search, AddCircle, Business } from '@mui/icons-material';
-
+import { Home, Create, Edit, Search, AddCircle, Business ,} from '@mui/icons-material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SmartButtonIcon from '@mui/icons-material/SmartButton';
 const LeftSideBar = ({ open, onMenuItemClick, activeItem }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [loginTime] = useState(new Date()); // Set the login time when the user first logs in
   const [sessionDuration, setSessionDuration] = useState(0); // Session duration in seconds
 
   const menuItems = [
-    { id: 'home', label: 'Dasahboard', icon: <Home fontSize="small" /> },
-    { id: 'button', label: 'Button', icon: <Create fontSize="small" /> },
+    { id: 'home', label: 'Dasahboard', icon: <DashboardIcon fontSize="small" /> },
+    { id: 'button', label: 'Button', icon: <SmartButtonIcon fontSize="small" /> },
     { id: 'table', label: 'Table', icon: <Edit fontSize="small" /> },
     { id: 'Box', label: 'Box', icon: <Search fontSize="small" /> },
     { id: 'According', label: 'According', icon: <AddCircle fontSize="small" /> },
@@ -101,7 +102,7 @@ const LeftSideBar = ({ open, onMenuItemClick, activeItem }) => {
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
                 sx={{
-                  textAlign: 'center',
+                  cursor:'pointer',
                   backgroundColor: item.id === activeItem ? 'lightSkyBlue' : 'transparent',
                   boxShadow: item.id === activeItem ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
                   fontWeight: item.id === activeItem ? 'bold' : 'normal',
